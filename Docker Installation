@@ -1,0 +1,42 @@
+Docker Install Ubuntu
+
+Ensure your apt package index is up to date.
+
+[user@ ~]$ sudo apt update
+
+Install the following apt packages to allow apt to use a repository over HTTPS:
+
+[user@ ~]$ sudo apt install apt-transport-https ca-certificates curl -nupg-agent software-properties-common
+
+Add Docker’s official GPG key:
+
+[user@ ~]$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+Verify that the GPG key fingerprint matches. As of publishing this guide, the fingerprint is 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88:
+
+[user@ ~]$ sudo apt-key fingerprint 0EBFCD88
+pub   4096R/0EBFCD88 2017-02-22
+      Key fingerprint = 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
+uid   Docker Release (CE deb) <docker@docker.com>
+sub   4096R/F273FCD8 2017-02-22 
+Add the repository using the add-apt-repository command:
+
+[user@ ~]$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+Install Docker Community Edition
+Update the apt package index using the apt update command:
+
+[user ~]$ sudo apt update
+
+Install Docker Community Edition using the apt-get install docker-ce command:
+
+[user@ ~]$ sudo apt install docker-ce docker-ce-cli containerd.oi
+
+Confirm Docker installed correctly using the docker run command:
+
+[user@ ~]$ sudo docker run hello-world
+
+Optional
+For best practices, do not use root. Instead, add your user to the Docker group. For this example, our user's is named user:
+
+[user@ ~]$ sudo usermod "username" -a -G docker 
