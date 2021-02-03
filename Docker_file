@@ -1,0 +1,97 @@
+Docker Install Ubuntu
+
+Ensure your apt package index is up to date.
+
+[user@ ~]$ sudo apt update
+
+Install the following apt packages to allow apt to use a repository over HTTPS:
+
+[user@ ~]$ sudo apt install apt-transport-https ca-certificates curl -nupg-agent software-properties-common
+
+Add Docker’s official GPG key:
+
+[user@ ~]$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+Verify that the GPG key fingerprint matches. As of publishing this guide, the fingerprint is 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88:
+
+[user@ ~]$ sudo apt-key fingerprint 0EBFCD88
+pub   4096R/0EBFCD88 2017-02-22
+      Key fingerprint = 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
+uid   Docker Release (CE deb) <docker@docker.com>
+sub   4096R/F273FCD8 2017-02-22 
+Add the repository using the add-apt-repository command:
+
+[user@ ~]$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+Install Docker Community Edition
+Update the apt package index using the apt update command:
+
+[user ~]$ sudo apt update
+
+Install Docker Community Edition using the apt-get install docker-ce command:
+
+[user@ ~]$ sudo apt install docker-ce docker-ce-cli containerd.oi
+
+Confirm Docker installed correctly using the docker run command:
+
+[user@ ~]$ sudo docker run hello-world
+
+Launching first container
+Docker run hello-world
+Docker run nginx
+-	(pulls  from library)
+
+Docker container ls
+Docker run alpine
+Docker container ls
+Docker container ls –a (lists all even in a stopped state)
+
+-	To interact with container we use flaggin
+Docker run –it –name a-container alpine
+Ls
+(interact with container as if it were any other server from this)\
+Apk upgrade (package manager for alpine)
+
+-	Autofix if the server shuts down and we container to restart/reboot
+docker run -dt --restart always --name background-container alpine
+docker container ls
+docker container ls –a
+docker run -it --name rm-test --rm alpine
+exit
+docker container ls –a
+
+-accessing the container
+-	To start a container
+Docker start a-container
+(work directly on the container)
+Docker exec command
+Docker exec a-container apk add nginx
+
+-	To check nginx  is installed
+Docker exec –it a-container ash
+-	Update files in container (pull from server to local host, make changes then push back up)
+docker cp a-container:/etc/nginx/conf.d/default.conf .
+ls
+When you enter the vim console, press "i" to type and to exit and save press "esc", "x", "!" / :wq
+
+docker cp default.conf a-container:/etc/nginx/conf.d/default.conf
+
+docker exec a-container cat /etc/nginx/conf.d/default.conf
+
+cat default.conf
+
+-to stop a container
+Docker stop “container name”
+Docker rm “container name”
+Docker container prune (stops all unused containers)
+(ctrl c to exit)
+
+(share container to internet)
+docker container ls
+vim index.html
+docker cp index.html webapp:/var/www/
+docker exec -dt webapp nginx -g 'pid /tmp/nginx.pid; daemon off;'
+docker inspect webapp | grep IP
+curl 172.17.0.3
+docker commit webapp web-base
+docker run -p 80:80 -dt --name webapp2 web-base
